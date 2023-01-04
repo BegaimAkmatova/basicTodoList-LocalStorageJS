@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <style>
+        .container {
+            width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .container div {
+            display: flex;
+            align-items: center;
+        }
+        #addBtn {
+            width: 200px;
+            margin-left: 10px;
+        }
+        .mb-3 {
+            margin-bottom: 0 !important;
+        }
+        #list {
+            padding-left: 0;
+        }
+        li {
+            margin: 10px 0;
+            border: 1px solid gray !important;
+            border-radius: 0 !important;
+        }
+
+    </style>
+    <title>todo list(список дел), localStorage</title>
+</head>
+<body>
+    <div class="container">
+        <!-- bootstrap input default -->
+            <div>      
+                <div class="input-group mb-3">
+                    <input id="inputEl" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="Введите текст">
+                </div>
+                <button id="addBtn" type="button" class="btn btn-primary">add todo</button>
+            </div>
+        <ul id="list" class="list-group"></ul>
+    </div>
+<script>
+        let inputEl = document.getElementById('inputEl')
+        let addBtn = document.getElementById('addBtn')
+        let list = document.getElementById('list')
+        
+        let data = [] // для хранения сухих данных
+
+        const createTodoItem = (text) => {
+            let todoItem = document.createElement('li')
+            todoItem.innerHTML = text
+            todoItem.className = 'list-group-item'
+
+            return todoItem
+        }
+
+        const addTodo = (e) => {
+            // console.log(inputEl.value)
+            if(inputEl.value) {   // проверка инпутта на пустату
+                // console.log(e) input тун ичинен enter ди басканда keycode алсак болот, keycode только клавиатуранын событиясында гана бар, мышкада keycode жок 
+                if(e.keyCode == 13 || e.pointerType == 'mouse') {
+                    
+                    let item = createTodoItem(inputEl.value)
+                    // let todoItem = document.createElement('li')
+                    // todoItem.innerHTML = inputEl.value
+                    // todoItem.className = 'list-group-item' // бустраптын классын илип жатабыз
+                    
+                    // обнавляем базу данных
+                    data.push({
+                        text:inputEl.value
+                    })
+
+                    console.log(data)
+
+                    // сохраняем в временное хранилище
+                    localStorage.setItem('todos',JSON.stringify(data))
+
+                    list.append(item)
+                    inputEl.value = '' // инпутту тазалайбыз
+                }
+            }
+        }
+
+        // localStorage
+        // setItem()
+        // getItem()
+
+        const render = () => {
+            let localData = JSON.parse(localStorage.getItem('todos')) || []
+            console.log(localData)
+
+            for(let i = 0; i < localData.length; i++) {
+
+                let li = createTodoItem(localData[i].text)
+                // let li = document.createElement('li')
+                // li.innerHTML = localData[i].text
+                // li.className = 'list-group-item'
+                list.prepend(li)
+            }
+        }
+
+        render()
+
+        addBtn.addEventListener('click', addTodo)
+        inputEl.addEventListener('keyup', addTodo)
+    </script>
+</body>
+</html>

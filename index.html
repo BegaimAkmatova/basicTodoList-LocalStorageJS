@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* body нин ичиндеги бут элементтерге бирдей стиль бердик*/
+        body * {                 
+            margin: 10px;
+            border: 1px solid blue;
+        }
+    </style>
+    <title>Всплытие, погружение</title>
+</head>
+
+<body>
+    <form action="">FORM
+        <div>DIV
+            <p>P</p>
+        </div>
+    </form>
+    
+    <script>
+        // погружение, ичине кирет
+        for (let elem of document.querySelectorAll('*')) {
+            elem.addEventListener('click',() => { 
+                alert(`Погружение: ${elem.tagName}`)
+            }, true)     // true деп жазсак погружение болот
+            // elem.addEventListener('click',() => { 
+            //     alert(`Всплытие: ${elem.tagName}`)
+            // })       // true ну жазбасак анда по умолчанию false всплытие болот
+        }
+
+        // кайсыл жерде колдонобуз: мисалы биз бир блок жазап жатабыз, ал блоктун ичинде кнопка болушу мумкун, 
+        // кнопканын функциясы болушу мумкун анан блоктун дагы функциясы болушу мумкун,
+        // кнопканы басканда кнопканын функциясы иштеп баштайт анан ойдодо турган блоктун дагы функциясы иштеп башташы мумкун кээ бир маалда бизге бул кереги жок болушу мумкун
+        // ошол учун addEventListener кошуп true ну жазып койсок addEventListener кошулган функция гана иштейт
+    </script>
+</body>
+</html>
